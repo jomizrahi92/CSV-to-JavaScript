@@ -24,8 +24,7 @@
             };
         
         
-        function csvJSON(csv){
-            
+        function csvConvert(csv){
             var lines=csv.split("\r"); //seperates csv into lines
             var result = []; //creates the main array
             var headers=lines[0].split(","); //takes the first line which are the property names and splits each one after the ,
@@ -45,57 +44,38 @@
                 
                 result.push(obj); //pushes the contents of the each object into result
             }
-            return JSON.stringify(result); //returns this in 
+            return result; //returns the full array
         }
 
         function upload(file, fileNumber) {
-            if( file.type.match(/text\/csv/) || file.type.match(/vnd\.ms-excel/) ){
-                oFReader = new FileReader();
-                oFReader.onloadend = function() {
-                    
-                    var json = csvJSON(this.result);
-
-                    /*console.log(json);
-                     
-                    var blob = new Blob([json], {type: 'application/json'});
-                    var url = URL.createObjectURL(blob);
-                    var output = document.getElementById("output");
-                    output.innerHTML = '<a href="'+url+'">JSON file</a>';
-                     */
-                    dataLoaded(json, fileNumber);
-                    insertIntoDataStructure(json);
+            if(file.type.match(/text\/csv/)){ //checks if its a csv file
+                oFReader = new FileReader(); //creates a file reader that asynchronously read the contents of files
+                oFReader.readAsText(file); //reads contents of a file
+                oFReader.onloadend = function() { //triggered each time the reading operation is completed (success or failure)
+                    var object = csvConvert(this.result); //its gets the contents and assigns a variable to the object we created
+                    dataLoaded(object, fileNumber); //displays message of sucess
                 };
-                oFReader.readAsText(file);
             } else {
-                document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload!";
+                document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload! Check the file type!";
             }
         }
-        function insertIntoDataStructure (json){
-            var obj = JSON.parse(json);
-            console.log(Object.keys(obj) + " and " + JSON.stringify(obj));
-            //console.log(obj[1]['Portfolio Market Value']);
-            for (x in obj){
-                //console.log(obj.hasOwnProperty("Portfolio Market Value"));
-                if (obj[x]['Portfolio Name']){
-                    portfolio.name = obj[x]['Portfolio Name'];
-                    portfolio.code = obj[x]['Portfolio Code'];
-                    portfolio.marketValue = obj[x]['Portfolio Market Value'];
-                    //console.log(obj[x]['Portfolio Market Value']);
-                    /*portfolio.portfolioS.className = obj[x]['Portfolio Name'];
-                    portfolio.portfolioS.className = obj[x]['Portfolio Name'];
-                    portfolio.portfolioS.className = obj[x]['Portfolio Name'];*/
+        function insertIntoDataStructure (object){
+            for (x in object){ //looping through
+                if (object[x]['Portfolio Name']){ //if the item exists
+                    portfolio.name = object[x]['Portfolio Name'];
+                    portfolio.code = object[x]['Portfolio Code'];
+                    portfolio.marketValue = object[x]['Portfolio Market Value'];
                     items.push(portfolio);
-                    //console.log(obj[x]);
                     console.log(items[x]);
                 }
             }
-            //console.log(items[1]);
         }
-        function dataLoaded(json, fileNumber){
+        function dataLoaded(object, fileNumber){
            var button = "button"+fileNumber;
-           if (json){
+           if (object){
                document.getElementById("output").innerHTML = "File " + fileNumber + " sucessfully uploaded!";
                document.getElementsByClassName(button)[0].innerHTML = "";
+               insertIntoDataStructure(object);
            }
             else {
                document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload!";
