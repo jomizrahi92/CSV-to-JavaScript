@@ -95,14 +95,19 @@
                             items[x].portfolioS.classBaseFee = object[x]['Portfolio Share Class Base Fee'];
                             items.push(items);
                             console.log(items[x]);*/
-                            /*var portfolioS = {
+                            /*var p2 = {
                                 className:"",
                                 classCode:"",
                                 classBaseFee:""
-                            };*/
-                            items[y].portfolioS[i].className = object[i]['Portfolio Name'];
-                            //items.push(items[y].portfolioS);
-
+                            };
+                            p2.className = object[i]['Portfolio Name'];
+                            items[y].portfolioS.push(p2);
+*/
+                            items[y].portfolioS.push({
+                                className: object[i]['Portfolio Name'],
+                                classCode: object[i]['Portfolio Share Class Name']",
+                                classBaseFee: object[i]['Portfolio Share Class Base Fee']
+                            });
                             console.log(items[y]);
                         }
                         else{
