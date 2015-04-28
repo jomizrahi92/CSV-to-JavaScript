@@ -71,9 +71,9 @@
                             code:"",
                             marketValue:"",
                             portfolioS: {
-                            className:"",
-                            classCode:"",
-                            classBaseFee:""}
+                                className:"",
+                                classCode:"",
+                                classBaseFee:""}
                         };
                         p.name = object[x]['Portfolio Name'];
                         p.code = object[x]['Portfolio Code'];
@@ -83,15 +83,37 @@
                     }
                 }
                 else {
-                    console.log("else 2: " + items[x].name);
-                    if (object[x]['Portfolio Name'] == items[x].name){ //if the item exists
-                        console.log("file 2");
-                        items[x].portfolioS.className = object[x]['Portfolio Name'];
-                        //items[x].portfolio.portfolioS.code = object[x]['Portfolio Share Class Name'];
-                        items[x].portfolioS.classCode = object[x]['Portfolio Share Class Code'];
-                        items[x].portfolioS.classBaseFee = object[x]['Portfolio Share Class Base Fee'];
-                        items.push(items);
-                        console.log(items[x]);
+                    var y = 0;
+                    var z = items.length;
+                    for (i in object){
+                        //console.log("else 2: " + object[x]['Portfolio Name']);
+                        //console.log("else 3: " + items[x].name);
+                        if (object[i]['Portfolio Name'] == items[y].name){ //if the item exists
+                            //console.log("object[i]['Portfolio Name']: " + object[i]['Portfolio Name']);
+                            //console.log("items[y].name: " + items[y].name);
+                            /*console.log("file 2");
+                            items[x].portfolioS.className = object[x]['Portfolio Name'];
+                            //items[x].portfolio.portfolioS.code = object[x]['Portfolio Share Class Name'];
+                            items[x].portfolioS.classCode = object[x]['Portfolio Share Class Code'];
+                            items[x].portfolioS.classBaseFee = object[x]['Portfolio Share Class Base Fee'];
+                            items.push(items);
+                            console.log(items[x]);*/
+                            var portfolioS = {
+                                className:"",
+                                classCode:"",
+                                classBaseFee:""
+                            };
+                            items[y].portfolioS.className = object[i]['Portfolio Name'];
+                            items.push(items[y].portfolioS[i]);
+
+                            console.log(items[y]);
+                        }
+                        else{
+                            y++;
+                            if (y == z){
+                                return;
+                            }
+                        }
                     }
                 }
             }
@@ -115,7 +137,7 @@
         function createTable(name){
             var table = document.getElementById('table');
             for (x in items) {
-                console.log(items[x]);
+                //console.log(items[x]);
                 var tr = "<tr>";
                 tr += "<td>" + items[x].name + "</td>";
                 tr += "<td>" + items[x].code + "</td>";
@@ -128,7 +150,7 @@
         function createDropdown(){
             var select = document.getElementById('select');
             for (x in items) {
-                console.log("Dropdown");
+                //console.log("Dropdown");
                 var option = "<option ";
                 option += 'value="';
                 option+= items[x].name;
