@@ -85,8 +85,7 @@
                 source: portfolio.name,
                 minLength: 2,
             });
-            var name = "Amber State Capital Appreciation Fund";
-            createTable(name);
+            createDropdown();
         }
         function dataLoaded(object, fileNumber){
            var button = "button"+fileNumber;
@@ -108,11 +107,25 @@
                 tr += "<td>" + items[x].code + "</td>";
                 tr += "<td>" + items[x].marketValue + "</td>";
                 tr += "<td>" + items[x].marketValue + "</td>";
-                tr += "</tr>";n
+                tr += "</tr>";
             }
             table.innerHTML += tr;
         }
-        
+        function createDropdown(){
+            var select = document.getElementById('select');
+            for (x in items) {
+                console.log("Dropdown");
+                var option = "<option ";
+                option += 'value="';
+                option+= items[x].name;
+                option+= '">';
+                option+= items[x].name;
+                option+= "</option>";
+            }
+            select.innerHTML += option;
+            var name = "Amber State Capital Appreciation Fund";
+            createTable(name);
+        }
         </script>
     </head>
     <body>
@@ -127,8 +140,9 @@
         
         <div id="output"></div>
         
-        
         <div id="view" style="margin-top:50px;">
+            <select id="select"></select>
+        
             <input type="text" id="text">
             <input type="submit" id="submit">
 
