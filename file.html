@@ -6,21 +6,19 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <title>Page</title>
         <script>
-            $(document).ready(function(){
-                $( "#text" ).autocomplete({
-                   source: portfolio
-                });
+            /*$(document).ready(function(){
 
-            });
+            });*/
+            
             var items = [];
             var portfolio = {
-                name:"Name",
-                code:"AAAA",
-                marketValue:"1234",
+                name:"",
+                code:"",
+                marketValue:"",
                 portfolioS: {
-                className:"Name",
-                classCode:"AAAA",
-                classBaseFee:"1234"}
+                className:"",
+                classCode:"",
+                classBaseFee:""}
             };
         
         
@@ -59,27 +57,60 @@
                 document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload! Check the file type!";
             }
         }
-        function insertIntoDataStructure (object){
+        function insertIntoDataStructure (object, fileNumber){
             for (x in object){ //looping through
-                if (object[x]['Portfolio Name']){ //if the item exists
-                    portfolio.name = object[x]['Portfolio Name'];
-                    portfolio.code = object[x]['Portfolio Code'];
-                    portfolio.marketValue = object[x]['Portfolio Market Value'];
-                    items.push(portfolio);
-                    console.log(items[x]);
+                if (fileNumber == 1){
+                    if (object[x]['Portfolio Name']){ //if the item exists
+                        portfolio.name = object[x]['Portfolio Name'];
+                        portfolio.code = object[x]['Portfolio Code'];
+                        portfolio.marketValue = object[x]['Portfolio Market Value'];
+                        items.push(portfolio);
+                        console.log(items[x]);
+                    }
+                }
+                else {
+                    console.log("else 2: " + items[x].name);
+                    if (object[x]['Portfolio Name'] == items[x].name){ //if the item exists
+                        console.log("file 2");
+                        items[x].portfolioS.className = object[x]['Portfolio Name'];
+                        //items[x].portfolio.portfolioS.code = object[x]['Portfolio Share Class Name'];
+                        items[x].portfolioS.classCode = object[x]['Portfolio Share Class Code'];
+                        items[x].portfolioS.classBaseFee = object[x]['Portfolio Share Class Base Fee'];
+                        items.push(items);
+                        console.log(items[x]);
+                    }
                 }
             }
+            $("#text").autocomplete({
+                source: portfolio.name,
+                minLength: 2,
+            });
+            var name = "Amber State Capital Appreciation Fund";
+            createTable(name);
         }
         function dataLoaded(object, fileNumber){
            var button = "button"+fileNumber;
            if (object){
                document.getElementById("output").innerHTML = "File " + fileNumber + " sucessfully uploaded!";
                document.getElementsByClassName(button)[0].innerHTML = "";
-               insertIntoDataStructure(object);
+               insertIntoDataStructure(object, fileNumber);
            }
             else {
                document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload!";
             }
+        }
+        function createTable(name){
+            var table = document.getElementById('table');
+            for (x in items) {
+                console.log(items[x]);
+                var tr = "<tr>";
+                tr += "<td>" + items[x].name + "</td>";
+                tr += "<td>" + items[x].code + "</td>";
+                tr += "<td>" + items[x].marketValue + "</td>";
+                tr += "<td>" + items[x].marketValue + "</td>";
+                tr += "</tr>";
+            }
+            table.innerHTML += tr;
         }
         
         </script>
@@ -98,18 +129,18 @@
         
         
         <div id="view" style="margin-top:50px;">
-            <input id="text">
+            <input type="text" id="text">
             <input type="submit" id="submit">
 
 
-            <table style="width:75%; margin:auto; text-align:center; padding-top:25px;">
+            <table id="table" style="width:75%; margin:auto; text-align:center; padding-top:25px;">
                 <tr>
                     <th>Portfolio Name</th>
                     <th>Portfolio Share Class Name</th>
                     <th>Portfolio Share Class Code</th>
                     <th>Portfolio Share Class Base Fee</th>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td>Jill</td>
                     <td>Smith</td>
                     <td>50</td>
@@ -126,7 +157,7 @@
                     <td>Doe</td>		
                     <td>80</td>
                     <td>50</td>
-                </tr>
+                </tr>-->
             </table>
         </div>
     </body>
