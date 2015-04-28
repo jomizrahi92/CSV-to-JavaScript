@@ -4,7 +4,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <title>Page</title>
+        <title>Interview Task</title>
         <script>
             /*$(document).ready(function(){
 
@@ -65,7 +65,7 @@
                         portfolio.code = object[x]['Portfolio Code'];
                         portfolio.marketValue = object[x]['Portfolio Market Value'];
                         items.push(portfolio);
-                        console.log(items[x]);
+                        console.log(items[x]); //shows everything
                     }
                 }
                 else {
@@ -108,7 +108,7 @@
                 tr += "<td>" + items[x].code + "</td>";
                 tr += "<td>" + items[x].marketValue + "</td>";
                 tr += "<td>" + items[x].marketValue + "</td>";
-                tr += "</tr>";
+                tr += "</tr>";n
             }
             table.innerHTML += tr;
         }
@@ -140,24 +140,6 @@
                     <th>Portfolio Share Class Code</th>
                     <th>Portfolio Share Class Base Fee</th>
                 </tr>
-                <!--<tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>		
-                    <td>94</td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>John</td>
-                    <td>Doe</td>		
-                    <td>80</td>
-                    <td>50</td>
-                </tr>-->
             </table>
         </div>
     </body>
