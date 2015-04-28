@@ -6,10 +6,6 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <title>Interview Task</title>
         <script>
-            /*$(document).ready(function(){
-
-            });*/
-            
             var items = [];
             var portfolio = {
                 name:"",
@@ -76,43 +72,25 @@
                         p.code = object[x]['Portfolio Code'];
                         p.marketValue = object[x]['Portfolio Market Value'];
                         items.push(p);
-                        console.log(items[x]); //shows everything
+                        //console.log(items[x]); //shows everything
                     }
                 }
                 else {
                     var y = 0;
                     var z = items.length;
                     for (i in object){
-                        //console.log("else 2: " + object[x]['Portfolio Name']);
-                        //console.log("else 3: " + items[x].name);
                         if (object[i]['Portfolio Name'] == items[y].name){ //if the item exists
-                            //console.log("object[i]['Portfolio Name']: " + object[i]['Portfolio Name']);
-                            //console.log("items[y].name: " + items[y].name);
-                            /*console.log("file 2");
-                            items[x].portfolioS.className = object[x]['Portfolio Name'];
-                            //items[x].portfolio.portfolioS.code = object[x]['Portfolio Share Class Name'];
-                            items[x].portfolioS.classCode = object[x]['Portfolio Share Class Code'];
-                            items[x].portfolioS.classBaseFee = object[x]['Portfolio Share Class Base Fee'];
-                            items.push(items);
-                            console.log(items[x]);*/
-                            /*var p2 = {
-                                className:"",
-                                classCode:"",
-                                classBaseFee:""
-                            };
-                            p2.className = object[i]['Portfolio Name'];
-                            items[y].portfolioS.push(p2);
-*/
                             items[y].portfolioS.push({
                                 className: object[i]['Portfolio Name'],
-                                classCode: object[i]['Portfolio Share Class Name']",
+                                classCode: object[i]['Portfolio Share Class Name'],
                                 classBaseFee: object[i]['Portfolio Share Class Base Fee']
                             });
-                            console.log(items[y]);
                         }
                         else{
                             y++;
+                            //console.log(items[y]);
                             if (y == z){
+                                createDropdown();
                                 return;
                             }
                         }
@@ -123,7 +101,6 @@
                 source: items.name,
                 minLength: 2,
             });
-            createDropdown();
         }
         function dataLoaded(object, fileNumber){
            var button = "button"+fileNumber;
@@ -136,23 +113,33 @@
                document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload!";
             }
         }
-        function createTable(name){
+        function createTable(pName){
             var table = document.getElementById('table');
+            table.innerHTML = "";
+            var th = "<tr>"
+                th += "<th>Portfolio Name</th>";
+                th += "<th>Portfolio Share Class Name</th>";
+                th += "<th>Portfolio Share Class Code</th>";
+                th += "<th>Portfolio Share Class Base Fee</th>";
+                th += "</tr>";
+            table.innerHTML += th;
             for (x in items) {
-                //console.log(items[x]);
-                var tr = "<tr>";
-                tr += "<td>" + items[x].name + "</td>";
-                tr += "<td>" + items[x].code + "</td>";
-                tr += "<td>" + items[x].marketValue + "</td>";
-                tr += "<td>" + items[x].marketValue + "</td>";
-                tr += "</tr>";
-                table.innerHTML += tr;
+                for (y in items[x].portfolioS){
+                    if (items[x].name == pName){
+                        var tr = "<tr>";
+                        tr += "<td>" + items[x].name + "</td>";
+                        tr += "<td>" + items[x].portfolioS[y].className + "</td>";
+                        tr += "<td>" + items[x].portfolioS[y].classCode + "</td>";
+                        tr += "<td>" + items[x].portfolioS[y].classBaseFee + "</td>";
+                        tr += "</tr>";
+                        table.innerHTML += tr;
+                    }
+                }
             }
         }
         function createDropdown(){
             var select = document.getElementById('select');
             for (x in items) {
-                //console.log("Dropdown");
                 var option = "<option ";
                 option += 'value="';
                 option+= items[x].name;
@@ -161,8 +148,8 @@
                 option+= "</option>";
                 select.innerHTML += option;
             }
-            var name = "Amber State Capital Appreciation Fund";
-            createTable(name);
+            var pName = "Amber State Capital Appreciation Fund";
+            createTable(pName);
         }
         </script>
     </head>
@@ -179,19 +166,13 @@
         <div id="output"></div>
         
         <div id="view" style="margin-top:50px;">
-            <select id="select"></select>
+            <select id="select" onchange="createTable(this.value)"></select>
         
             <input type="text" id="text">
             <input type="submit" id="submit">
 
 
             <table id="table" style="width:75%; margin:auto; text-align:center; padding-top:25px;">
-                <tr>
-                    <th>Portfolio Name</th>
-                    <th>Portfolio Share Class Name</th>
-                    <th>Portfolio Share Class Code</th>
-                    <th>Portfolio Share Class Base Fee</th>
-                </tr>
             </table>
         </div>
     </body>
