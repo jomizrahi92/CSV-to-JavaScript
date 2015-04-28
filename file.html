@@ -21,7 +21,12 @@
                 classBaseFee:""}
             };
         
-        
+        /*function Portfolio(name, code, marketValue, portfolioS) {
+            this.name = name;
+            this.code = code;
+            this.marketValue = marketValue;
+            this.portfolioS = portfolioS;
+        }*/
         function csvConvert(csv){
             var lines=csv.split("\r"); //seperates csv into lines
             var result = []; //creates the main array
@@ -61,10 +66,19 @@
             for (x in object){ //looping through
                 if (fileNumber == 1){
                     if (object[x]['Portfolio Name']){ //if the item exists
-                        portfolio.name = object[x]['Portfolio Name'];
-                        portfolio.code = object[x]['Portfolio Code'];
-                        portfolio.marketValue = object[x]['Portfolio Market Value'];
-                        items.push(portfolio);
+                        var p = {
+                            name:"",
+                            code:"",
+                            marketValue:"",
+                            portfolioS: {
+                            className:"",
+                            classCode:"",
+                            classBaseFee:""}
+                        };
+                        p.name = object[x]['Portfolio Name'];
+                        p.code = object[x]['Portfolio Code'];
+                        p.marketValue = object[x]['Portfolio Market Value'];
+                        items.push(p);
                         console.log(items[x]); //shows everything
                     }
                 }
@@ -82,7 +96,7 @@
                 }
             }
             $("#text").autocomplete({
-                source: portfolio.name,
+                source: items.name,
                 minLength: 2,
             });
             createDropdown();
@@ -108,8 +122,8 @@
                 tr += "<td>" + items[x].marketValue + "</td>";
                 tr += "<td>" + items[x].marketValue + "</td>";
                 tr += "</tr>";
+                table.innerHTML += tr;
             }
-            table.innerHTML += tr;
         }
         function createDropdown(){
             var select = document.getElementById('select');
@@ -121,8 +135,8 @@
                 option+= '">';
                 option+= items[x].name;
                 option+= "</option>";
+                select.innerHTML += option;
             }
-            select.innerHTML += option;
             var name = "Amber State Capital Appreciation Fund";
             createTable(name);
         }
