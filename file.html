@@ -97,10 +97,49 @@
                     }
                 }
             }
-            $("#text").autocomplete({
-                source: items.name,
-                minLength: 2,
-            });
+            $('#text').autocomplete({
+                  lookup: items,
+                  onSelect: function (suggestion) {
+                    var thehtml = '<strong>Currency Name:</strong> ' + suggestion.name + ' <br> <strong>Symbol:</strong> ' + suggestion.data;
+                    $('#output').html(thehtml);
+                  }
+                });
+
+
+            /*$("#text").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        success: function (data) {
+
+                            var result = [];
+
+                            items.forEach(function (value, index) {
+                                result.push({ label: value.name, data: value });
+                            });
+                            response(result);
+                        },
+                        error: function (data, err, message) {
+
+                        }
+                    });
+                },
+                messages: {
+                    noResults: '',
+                    results: function () { }
+                },
+                select: function (event, ui) {
+                    recievers.push(ui.item.data);
+                    $(this).val('');
+                    var c = 0;
+                    items.forEach(function (value, index) {
+                        if (value.name == ui.item.label) {
+                            items.splice(c, 1);
+                        }
+                        c++;
+                    });
+                    return false;
+                }
+            });*/
         }
         function dataLoaded(object, fileNumber){
            var button = "button"+fileNumber;
@@ -169,9 +208,8 @@
             <select id="select" onchange="createTable(this.value)"></select>
         
             <input type="text" id="text">
-            <input type="submit" id="submit">
-
-
+            <input type="submit" id="submit" value="Search" onclick="createTable(document.getElementById('text').value)">
+            
             <table id="table" style="width:75%; margin:auto; text-align:center; padding-top:25px;">
             </table>
         </div>
