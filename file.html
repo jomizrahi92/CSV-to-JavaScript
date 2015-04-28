@@ -24,48 +24,28 @@
             };
         
         
-        //var csv is the CSV file with headers
         function csvJSON(csv){
             
-            var lines=csv.split("\r");
-            //console.log("lines: "+ lines);
-            var result = [];
-            var headers=lines[0].split(",");
-            //console.log("headers: "+ headers);
+            var lines=csv.split("\r"); //seperates csv into lines
+            var result = []; //creates the main array
+            var headers=lines[0].split(","); //takes the first line which are the property names and splits each one after the ,
 
             for(var i=1;i<lines.length;i++){
-                
-                var obj = {};
-                var currentline=lines[i].split(",");
-                //console.log("currentline: "+ currentline);
+                var obj = {}; //creates an array that will be put in the main array
+                var currentline=lines[i].split(","); //splits up the line with each ,
 
                 for(var j=0;j<headers.length;j++){
-                    obj[headers[j]] = currentline[j];
-                    //console.log("headers[j]: "+headers[j]);
-                    //console.log("obj[headers[j]]: "+ obj[headers[j]]);
+                    obj[headers[j]] = currentline[j]; //gets each value that was seperated by the , and assigns it
                     
-                    if (obj[headers[j]]){
-                        //console.log("obj[headers[j]] OLD: "+ obj[headers[j]]);
-                        obj[headers[j]] = obj[headers[j]].replace(/['"]+/g, '');
-                        obj[headers[j]] = $.trim(obj[headers[j]]);
-                        //console.log("obj[headers[j]] NEW: "+ obj[headers[j]]);
-                        //console.log("TESTT: " + obj['Portfolio Market Value']);
-                        //console.log("headers[j]: " + headers[j]);
-                        if (headers[j] == "Portfolio Market Value"){
-                           console.log("TEST");
-                        }
+                    if (obj[headers[j]]){ //if the item exists
+                        obj[headers[j]] = obj[headers[j]].replace(/['"]+/g, ''); //Replaces "" with nothing
+                        obj[headers[j]] = $.trim(obj[headers[j]]); //Trims first char if its a space
                      }
-                    /*if (headers[j] == "Portfolio Market Value"){
-                        currentline[j] = currentline[j].replace(/['"]+/g, '');
-                        console.log("its:" + currentline[j]);
-                    }*/
-
                 }
                 
-                result.push(obj);
-                
+                result.push(obj); //pushes the contents of the each object into result
             }
-            return JSON.stringify(result);
+            return JSON.stringify(result); //returns this in 
         }
 
         function upload(file, fileNumber) {
