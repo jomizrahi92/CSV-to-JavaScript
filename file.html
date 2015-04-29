@@ -6,14 +6,8 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <title>Interview Task</title>
         <script>
-            var items = [];
+        var items = [];
         
-        /*function Portfolio(name, code, marketValue, portfolioS) {
-            this.name = name;
-            this.code = code;
-            this.marketValue = marketValue;
-            this.portfolioS = portfolioS;
-        }*/
         function csvConvert(csv){
             var lines=csv.split("\r"); //seperates csv into lines
             var result = []; //creates the main array
@@ -58,7 +52,7 @@
                             code:"",
                             marketValue:"",
                             //label: "",
-                            portfolioS: new Array()
+                            portfolioS: new Array() //for multiple ones
                         };
                         p.name = object[x]['Portfolio Name'];
                         p.value = object[x]['Portfolio Name'];
@@ -68,7 +62,7 @@
                     }
                 }
                 else {
-                    var y = 0;
+                    var y = 0; //need y bec need to iterate over each i for every y
                     var z = items.length;
                     for (i in object){
                         if (object[i]['Portfolio Name'] == items[y].name){ //if the item exists
@@ -90,7 +84,7 @@
                 }
             }
         }
-        function dataLoaded(object, fileNumber){
+        function dataLoaded(object, fileNumber){ //detects the button used and outputs if it was sucessful
            var button = "button"+fileNumber;
            if (object){
                document.getElementById("output").innerHTML = "File " + fileNumber + " sucessfully uploaded!";
@@ -101,7 +95,7 @@
                document.getElementById("output").innerHTML = "File  " + fileNumber + " failed to upload!";
             }
         }
-        function createTable(pName){
+        function createTable(pName){ //creates the table using the porfolio name
             var table = document.getElementById('table');
             table.innerHTML = "";
             var th = "<tr>"
@@ -112,7 +106,7 @@
                 th += "</tr>";
             table.innerHTML += th;
             for (x in items) {
-                for (y in items[x].portfolioS){
+                for (y in items[x].portfolioS){ //needs another loop for each porfolioS thats added (seperate array)
                     if (items[x].name == pName){
                         var tr = "<tr>";
                         tr += "<td>" + items[x].name + "</td>";
@@ -125,7 +119,7 @@
                 }
             }
         }
-        function createDropdown(){
+        function createDropdown(){ //Creates the dropdown with the names of each portfolio
             var select = document.getElementById('select');
             for (x in items) {
                 var option = "<option ";
@@ -136,11 +130,11 @@
                 option+= "</option>";
                 select.innerHTML += option;
             }
-            var pName = "Amber State Capital Appreciation Fund";
+            var pName = "Amber State Capital Appreciation Fund"; //Gives a default table
             createTable(pName);
         }
-        function createAutoComplete(){
-            var all = [];
+        function createAutoComplete(){ //Creates the autocomplete
+            var all = []; //creates another array because autocomplete uses label and value only
             for (x in items){
                 var p = {
                     label: "",
@@ -150,7 +144,7 @@
                 p.value = items[x].name;
                 all.push(p);
             }
-            $('#text').autocomplete({
+            $('#text').autocomplete({ //does the actual autocomplete using the array all
                 source: all
                 /*onSelect: function (suggestion) {
                   createTable(suggestion);
@@ -162,7 +156,11 @@
     <body>
         <div class="button1">
             <button onclick="document.querySelector('#file1').click()">Select File 1</button>
+            <!-- Assigns a button for the input of a file -->
+            <!-- Document.querySelector = Returns the first element within the document that matches the specified group of selectors.-->
             <input id="file1" style="visibility: hidden; width: 0px;" type="file" onchange="upload(this.files[0], 1)">
+            <!--Makes this input hidden and onchange it runs upload() using the file. 
+                Uses this.files[0] because this retrieves the local file from input type=file-->
         </div>
         <div class="button2">
             <button onclick="document.querySelector('#file2').click()">Select File 2</button>
@@ -173,9 +171,11 @@
         
         <div id="view" style="margin-top:50px;">
             <select id="select" onchange="createTable(this.value)"></select>
+            <!--creates a table using this.value which is the value clicked from the dropdown -->
         
             <input type="text" id="text">
             <input type="submit" id="submit" value="Search" onclick="createTable(document.getElementById('text').value)">
+            <!--creates a table by getting the id from the text input and when submit is clicked it runs it-->
             
             <table id="table" style="width:75%; margin:auto; text-align:center; padding-top:25px;">
             </table>
