@@ -7,15 +7,6 @@
         <title>Interview Task</title>
         <script>
             var items = [];
-            var portfolio = {
-                name:"",
-                code:"",
-                marketValue:"",
-                portfolioS: {
-                className:"",
-                classCode:"",
-                classBaseFee:""}
-            };
         
         /*function Portfolio(name, code, marketValue, portfolioS) {
             this.name = name;
@@ -66,7 +57,7 @@
                             name:"",
                             code:"",
                             marketValue:"",
-                            label: "",
+                            //label: "",
                             portfolioS: new Array()
                         };
                         p.name = object[x]['Portfolio Name'];
@@ -74,7 +65,6 @@
                         p.code = object[x]['Portfolio Code'];
                         p.marketValue = object[x]['Portfolio Market Value'];
                         items.push(p);
-                        //console.log(items[x]); //shows everything
                     }
                 }
                 else {
@@ -92,18 +82,13 @@
                             y++;
                             if (y == z){
                                 createDropdown();
+                                createAutoComplete();
                                 return;
                             }
                         }
                     }
                 }
             }
-          $('#text').autocomplete({
-            source: items
-            /*onSelect: function (suggestion) {
-              createTable(suggestion);
-            }*/
-          });
         }
         function dataLoaded(object, fileNumber){
            var button = "button"+fileNumber;
@@ -153,6 +138,24 @@
             }
             var pName = "Amber State Capital Appreciation Fund";
             createTable(pName);
+        }
+        function createAutoComplete(){
+            var all = [];
+            for (x in items){
+                var p = {
+                    label: "",
+                    value: ""
+                };
+                p.label = items[x].name;
+                p.value = items[x].name;
+                all.push(p);
+            }
+            $('#text').autocomplete({
+                source: all
+                /*onSelect: function (suggestion) {
+                  createTable(suggestion);
+                }*/
+              });
         }
         </script>
     </head>
